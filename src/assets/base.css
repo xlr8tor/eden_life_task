@@ -19,6 +19,16 @@
   --vt-c-text-light-2: rgba(60, 60, 60, 0.66);
   --vt-c-text-dark-1: var(--vt-c-white);
   --vt-c-text-dark-2: rgba(235, 235, 235, 0.64);
+
+  --maxWidth: 1280px;
+  --white: #fff;
+  --lightGrey: #eee;
+  --medGrey: #353535;
+  --darkGrey: #1c1c1c;
+  --fontXL: 2.5rem;
+  --fontL: 1.5rem;
+  --fontM: 1.2rem;
+  --fontS: 1rem;
 }
 
 /* semantic color variables for this project */
@@ -61,12 +71,11 @@
 
 body {
   min-height: 100vh;
-  color: var(--color-text);
-  background: var(--color-background);
   transition: color 0.5s, background-color 0.5s;
   line-height: 1.6;
-  font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
-    Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  font-family: Avenir, Helvetica, Arial, sans-serif, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
   font-size: 15px;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
