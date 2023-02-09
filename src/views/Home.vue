@@ -2,9 +2,11 @@
 <script lang="ts">
 import ProfileGrid from "../components/ProfileGrid.vue";
 import HeroImage from "../components/HeroImage.vue";
+import SearchBar from "../components/SearchBar.vue";
 
 export default {
   components: {
+    SearchBar,
     ProfileGrid,
     HeroImage,
   },
@@ -18,5 +20,6 @@ export default {
 
 <template>
   <HeroImage :src="`url(${imgUrl})`" />
+  <SearchBar />
   <ProfileGrid @src="(url) => (imgUrl = url)" />
 </template>

@@ -2,28 +2,28 @@
 export default {
   name: "ImageItem",
   props: { id: Number, src: String },
-  data: () => ({
-    intersected: false,
-    observer: null,
-  }),
-  computed: {
-    srcUrl() {
-      return this.intersected ? this.src : "";
-    },
-  },
-  mounted() {
-    this.observer = new IntersectionObserver((entries) => {
-      const entry = entries[0];
-      if (entry.isIntersecting) {
-        this.intersected = true;
-        this.observer.disconnect();
-      }
-    });
-    this.observer.observe(this.$el);
-  },
-  unmounted() {
-    this.observer.disconnect();
-  },
+  // data: () => ({
+  //   intersected: false,
+  //   observer: null,
+  // }),
+  // computed: {
+  //   srcUrl() {
+  //     return this.intersected ? this.src : "";
+  //   },
+  // },
+  // mounted() {
+  //   this.observer = new IntersectionObserver((entries) => {
+  //     const entry = entries[0];
+  //     if (entry.isIntersecting) {
+  //       this.intersected = true;
+  //       this.observer.disconnect();
+  //     }
+  //   });
+  //   this.observer.observe(this.$el);
+  // },
+  // unmounted() {
+  //   this.observer.disconnect();
+  // },
 };
 </script>
 <template>

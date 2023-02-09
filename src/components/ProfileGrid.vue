@@ -2,45 +2,120 @@
 import { mapGetters, mapActions } from "vuex";
 import ImageItem from "./ImageItem.vue";
 import LoadingSpinner from "./LoadingSpinner.vue";
+import chunkArray from "../utils/chunkyArray.js";
+import LazyList from "lazy-load-list/vue";
 
 export default {
   name: "ProfileGrid",
   components: {
     ImageItem,
     LoadingSpinner,
+    LazyList,
   },
-  methods: {
-    ...mapActions(["fetchProfiles"]),
-  },
-  computed: mapGetters(["allProfiles"]),
-  emits: ["src"],
   created() {
     this.fetchProfiles();
     this.$emit("src", this.allProfiles[0].data);
+    this.updateList();
+
+    this.$watch(
+      "data",
+      function () {
+        this.updateList();
+        console.log("heere");
+      },
+      { deep: true }
+    );
   },
+  watch: {
+    data() {
+      this.updateList();
+    },
+  },
+  mounted() {
+    this.$refs["wrapper"].addEventListener("scroll", this.loadItems);
+    this.loadItems();
+  },
+  // beforeUnmount() {
+  //   this.$refs["wrapper"].removeEventListener("scroll", this.loadItems);
+  // },
+  data() {
+    return {
+      items: [],
+      page: 0,
+      loading: false,
+      itemsToDisplay: [],
+    };
+  },
+  methods: {
+    ...mapActions(["fetchProfiles"]),
+    updateList() {
+      const chunckedArray = chunkArray(this.allProfiles, 8);
+      this.items = chunckedArray;
+      this.itemsToDisplay = chunckedArray[0];
+      console.log("items", this.items);
+    },
+    loadItems() {
+      if (this.page == this.items.length - 1) return;
+
+      const element = this.$refs["end-of-list"];
+      if (!element) return;
+
+      const position = element.getBoundingClientRect();
+
+      if (position.top >= 0 && !this.loading) {
+        this.loading = true;
+        this.page++;
+        setTimeout(() => {
+          this.itemsToDisplay = [
+            ...this.itemsToDisplay,
+            ...this.items[this.page],
+          ];
+          this.loading = false;
+          this.loadItems();
+        }, 500);
+      }
+    },
+  },
+  computed: mapGetters(["allProfiles"]),
+  emits: ["src"],
 };
 </script>
 
 <template>
-  <div class="wrapper">
+  <div class="wrapper" ref="wrapper">
+    <!-- <LazyList
+      :data="allProfiles"
+      :itemsPerRender="8"
+      containerClasses="profiles"
+    >
+      <template v-slot="{ item }">
+        <ImageItem :src="item.data" :id="item.id" />
+      </template>
+    </LazyList> -->
+
     <div v-if="allProfiles.length == 0">
       <LoadingSpinner />
     </div>
     <div v-else class="profiles">
       <ImageItem
-        v-for="profile in allProfiles"
-        :key="profile.id"
-        :src="profile.data"
-        :id="profile.id"
+        v-for="item in itemsToDisplay"
+        :key="item.id"
+        :src="item.data"
+        :id="item.id"
       />
     </div>
+    <div
+      v-show="page !== items.length - 1 || !loading"
+      id="end-of-list"
+      ref="end-of-list"
+    />
   </div>
 </template>
 
 <style scoped>
 .wrapper {
   max-width: 1280px;
-  margin: 0 auto;
+  margin: 4rem auto;
   padding: 0 20px;
 }
 .profiles {

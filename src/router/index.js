@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Home from "../views/Home.vue";
-import ProfileDetails from "../components/ProfileDetails.vue";
 
 const routerHistory = createWebHistory();
 
@@ -18,7 +17,7 @@ const routes = [
         id: route.params.id,
       };
     },
-    component: ProfileDetails,
+    component: () => import("../components/ProfileDetails.vue"),
   },
 ];
 

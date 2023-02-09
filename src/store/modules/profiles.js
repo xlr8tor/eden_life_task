@@ -27,6 +27,12 @@ const actions = {
     commit("clearStorage");
     commit("persistProfiles");
   },
+  async searchProfiles({ commit }, searchTerm) {
+    const response = await axios.get(
+      `https://dog.ceo/api/breed/${searchTerm}/images`
+    );
+    console.log(response);
+  },
 };
 
 const mutations = {
