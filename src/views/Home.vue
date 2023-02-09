@@ -10,16 +10,11 @@ export default {
     ProfileGrid,
     HeroImage,
   },
-  data() {
-    return {
-      imgUrl: "",
-    };
-  },
 };
 </script>
 
 <template>
-  <HeroImage :src="`url(${imgUrl})`" />
+  <HeroImage />
   <SearchBar />
-  <ProfileGrid @src="(url) => (imgUrl = url)" />
+  <ProfileGrid />
 </template>

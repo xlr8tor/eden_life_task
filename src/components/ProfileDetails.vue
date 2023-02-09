@@ -13,15 +13,22 @@ export default {
     const profile = computed(() => {
       return store.getters.getProfile(props.id);
     });
+    const match = computed(() => {
+      const regex = /breeds\/(\w+)\//;
+      const match = profile.value.data.match(regex);
+      return match ? match[1] : null;
+    });
+
     return {
       profile,
+      match,
     };
   },
 };
 </script>
 <template>
   <div class="profile flex">
-    <h2 v-if="profile">Puppy</h2>
+    <h2 v-if="match.value">{{ match.value }}</h2>
     <img class="img" :src="profile.data" />
   </div>
 </template>

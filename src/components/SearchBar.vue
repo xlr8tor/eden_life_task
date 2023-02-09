@@ -10,17 +10,17 @@ export default {
   },
   watch: {
     search() {
-      const timer = 500;
+      const timer = 1000;
       if (this.queryTimeout) {
         clearTimeout(this.queryTimeout);
       }
       setTimeout(() => {
-        this.searchProfiles(this.search);
+        this.fetchProfiles(this.search);
       }, timer);
     },
   },
   methods: {
-    ...mapActions(["searchProfiles"]),
+    ...mapActions(["fetchProfiles"]),
   },
 };
 </script>

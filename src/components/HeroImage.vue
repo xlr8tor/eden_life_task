@@ -1,6 +1,3 @@
-<script setup>
-const props = defineProps(["src"]);
-</script>
 <template>
   <div class="jumbotron"></div>
 </template>
@@ -12,7 +9,8 @@ const props = defineProps(["src"]);
       rgba(0, 0, 0, 0) 41%,
       rgba(0, 0, 0, 0.65) 100%
     ),
-    v-bind("props.src"), var(--darkGrey);
+    url("https://images.dog.ceo/breeds/dingo/n02115641_3995.jpg"),
+    var(--darkGrey);
   background-size: 100%, cover;
   background-position: center;
   height: 600px;

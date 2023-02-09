@@ -16,6 +16,7 @@ const getters = {
 
 const actions = {
   async fetchProfiles({ commit }) {
+    if (state.profiles.length != 0) return;
     const instance = axios.create({
       baseURL: "https://dog.ceo/api/breeds/image/random/50",
     });
@@ -24,7 +25,6 @@ const actions = {
       .get()
       .then((profile) => profile.data);
     commit("setProfiles", [...response.message, ...response_second.message]);
-    commit("clearStorage");
     commit("persistProfiles");
   },
   async searchProfiles({ commit }, searchTerm) {

@@ -3,34 +3,25 @@ import { mapGetters, mapActions } from "vuex";
 import ImageItem from "./ImageItem.vue";
 import LoadingSpinner from "./LoadingSpinner.vue";
 import chunkArray from "../utils/chunkyArray.js";
-import LazyList from "lazy-load-list/vue";
 
 export default {
   name: "ProfileGrid",
   components: {
     ImageItem,
     LoadingSpinner,
-    LazyList,
   },
   created() {
     this.fetchProfiles();
-    this.$emit("src", this.allProfiles[0].data);
     this.updateList();
-
     this.$watch(
       "data",
       function () {
         this.updateList();
-        console.log("heere");
       },
       { deep: true }
     );
   },
-  watch: {
-    data() {
-      this.updateList();
-    },
-  },
+
   mounted() {
     this.$refs["wrapper"].addEventListener("scroll", this.loadItems);
     this.loadItems();
@@ -52,16 +43,12 @@ export default {
       const chunckedArray = chunkArray(this.allProfiles, 8);
       this.items = chunckedArray;
       this.itemsToDisplay = chunckedArray[0];
-      console.log("items", this.items);
     },
     loadItems() {
       if (this.page == this.items.length - 1) return;
-
       const element = this.$refs["end-of-list"];
       if (!element) return;
-
       const position = element.getBoundingClientRect();
-
       if (position.top >= 0 && !this.loading) {
         this.loading = true;
         this.page++;
@@ -77,22 +64,11 @@ export default {
     },
   },
   computed: mapGetters(["allProfiles"]),
-  emits: ["src"],
 };
 </script>
 
 <template>
   <div class="wrapper" ref="wrapper">
-    <!-- <LazyList
-      :data="allProfiles"
-      :itemsPerRender="8"
-      containerClasses="profiles"
-    >
-      <template v-slot="{ item }">
-        <ImageItem :src="item.data" :id="item.id" />
-      </template>
-    </LazyList> -->
-
     <div v-if="allProfiles.length == 0">
       <LoadingSpinner />
     </div>
